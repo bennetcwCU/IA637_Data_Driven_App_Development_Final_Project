@@ -1,6 +1,6 @@
 db:
-  user: 'bennetcw'
-  pw: 'Swedishfish23!'
+  user: 'YOUR_USERNAME'
+  pw: 'YOUR_PASSWORD'
   host: 'mysql.clarksonmsda.org'
   db: 'bennetcw_IA637_rowing_DB'
 
