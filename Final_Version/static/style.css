@@ -1,0 +1,297 @@
+:root {
+  --green: #004e42;
+  --gold: #ffcd00;
+  --bg: #f8f7f5;
+  --dark-bg: #0a0f0d;
+  --dark-text: #e0e0e0;
+  --dark-card: #111c17;
+  --light-text: #333;
+  --light-card: #ffffff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--light-text);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+body[data-theme="dark"] {
+  --bg: var(--dark-bg);
+  --text: var(--dark-text);
+  --card-bg: var(--dark-card);
+}
+
+/* MAIN TITLE & SUBTITLE — PERFECT IN DARK MODE */
+.page-title {
+  color: #004e42 !important;
+  transition: color 0.3s ease;
+}
+
+.page-subtitle {
+  color: #666666 !important;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .page-title,
+[data-theme="dark"] .page-subtitle {
+  color: #ffcd00 !important;   /* Bright gold in dark mode */
+}
+
+/* TEAM AVERAGE NUMBER — GREEN ON GOLD */
+.team-average-number {
+  color: #004e42 !important;
+  font-weight: 900;
+}
+
+/* Sliding Toggle Switch - Clarkson Branded */
+.theme-toggle {
+  position: fixed;
+  bottom: 45px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--green);
+  transition: .4s;
+  border-radius: 34px;
+  border: 2px solid var(--gold);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 2px;
+  background-color: var(--gold);
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--gold);
+  border-color: var(--green);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+  background-color: var(--green);
+}
+
+.theme-toggle label {
+  color: var(--text);
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Rest of your styles */
+.navbar {
+  background: var(--green) !important;
+  padding: 1.5rem 0;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.navbar-brand img {
+  height: 60px;
+}
+
+h1, h2, h3 {
+  color: var(--green);
+}
+
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 {
+  color: var(--gold);
+}
+
+.btn-green {
+  background: var(--green);
+  color: white;
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 12px 32px;
+  border: none;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--green);
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 12px 32px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(255,205,0,0.3);
+  transition: all 0.2s;
+}
+
+.btn-gold:hover {
+  background: #e6b800;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255,205,0,0.4);
+}
+
+.card {
+  background: var(--light-card);
+  border-radius: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0,78,66,0.15);
+}
+
+.table thead th {
+  background: var(--green);
+  color: white;
+}
+
+[data-theme="dark"] .table thead th {
+  background: var(--green);
+  color: var(--gold);
+}
+
+.theme-toggle label {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* TOTAL HOURS TRAINED — PERFECT VISIBILITY IN DARK MODE */
+.hours-trained-number {
+  color: #004e42 !important;   /* Clarkson Green — perfect on gold */
+  font-weight: 900;
+}
+
+/* ANALYTICS PAGE TITLE — PERFECT IN DARK MODE */
+.analytics-title {
+  color: #004e42;
+  transition: color 0.3s ease;
+}
+
+.analytics-subtitle {
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode: bright gold — perfectly visible */
+[data-theme="dark"] .analytics-title,
+[data-theme="dark"] .analytics-subtitle {
+  color: #ffcd00 !important;   /* Clarkson Gold */
+}
+
+
+/* LOGIN PAGE TITLE — PERFECT VISIBILITY IN DARK MODE */
+.login-title {
+  color: #004e42 !important;
+  transition: color 0.3s ease;
+}
+
+.login-subtitle {
+  color: #666666 !important;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode: bright gold — perfectly visible */
+[data-theme="dark"] .login-title,
+[data-theme="dark"] .login-subtitle {
+  color: #ffcd00 !important;   /* Clarkson Gold — 100% visible */
+}
+
+/* TEAM AVERAGE NUMBER — ALWAYS CLARKSON GREEN ON GOLD BACKGROUND */
+.team-average-number {
+  color: #004e42 !important;   /* Clarkson Green — perfect on gold */
+  font-weight: 900;
+}
+
+/* MAIN TITLE — GREEN IN LIGHT, GOLD IN DARK (OFFICIAL) */
+.page-title {
+  color: #004e42 !important;   /* Clarkson Green in light mode */
+  transition: color 0.3s ease;
+}
+
+.page-subtitle {
+  color: #666666 !important;   /* Gray in light mode */
+  transition: color 0.3s ease;
+}
+
+/* Dark mode: BOTH title and subtitle become GOLD */
+[data-theme="dark"] .page-title,
+[data-theme="dark"] .page-subtitle {
+  color: #ffcd00 !important;   /* Clarkson Gold — perfectly visible */
+}
+
+/* ATHLETE DASHBOARD TITLE — OFFICIAL CLARKSON GOLD IN DARK MODE */
+.athlete-welcome-title {
+  color: #004e42;
+  transition: color 0.3s ease;
+}
+
+.athlete-welcome-subtitle {
+  color: #666666;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .athlete-welcome-title,
+[data-theme="dark"] .athlete-welcome-subtitle {
+  color: #ffcd00 !important;   /* Clarkson Gold — perfect on dark background */
+}
+
+/* MY ACCOUNT PAGE — OFFICIAL CLARKSON GOLD IN DARK MODE */
+.my-account-title {
+  color: #004e42;
+  transition: color 0.3s ease;
+}
+
+.my-account-name {
+  color: #004e42;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode → Gold text */
+[data-theme="dark"] .my-account-title,
+[data-theme="dark"] .my-account-name {
+  color: #ffcd00 !important;
+}
+
+/* CURRENT ATTENDANCE RATE VALUE — GREEN IN DARK MODE */
+.attendance-rate-value {
+  color: #004e42;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode → Clarkson Green on gold background */
+[data-theme="dark"] .attendance-rate-value {
+  color: #004e42 !important;
+}
+
+/* MY HISTORY PAGE — OFFICIAL CLARKSON GREEN IN LIGHT MODE */
+.my-history-title {
+  color: #004e42 !important;   /* Clarkson Green — official */
+}
+
+.my-history-name {
+  color: #004e42 !important;   /* Clarkson Green — official */
+}
+
+/* Dark mode → Gold (already perfect) */
+[data-theme="dark"] .my-history-title,
+[data-theme="dark"] .my-history-name {
+  color: #ffcd00 !important;
+}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Manage Users & Athletes{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold page-title">Manage Users & Athletes</h1>
+  </div>
+
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">All Users</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th class="ps-4">Name</th>
+              <th>Email</th>
+              <th>Current Role</th>
+              <th class="text-center">Change Role</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td class="ps-4 fw-bold">{{ u.Name }}</td>
+              <td>{{ u.email }}</td>
+              <td class="text-center">
+                <span class="badge {% if u.role == 'Admin' %}bg-warning text-dark{% else %}bg-success{% endif %} px-3 py-2">
+                  {{ u.role }}
+                </span>
+              </td>
+              <td class="text-center">
+                {% if u.role == 'Athlete' %}
+                  <a href="/change-role/{{ u.UserID }}/Admin" class="btn btn-sm btn-outline-warning">
+                    Make Admin
+                  </a>
+                {% else %}
+                  <a href="/change-role/{{ u.UserID }}/Athlete" class="btn btn-sm btn-outline-secondary">
+                    Make Athlete
+                  </a>
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <a href="/delete-user/{{ u.UserID }}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Delete {{ u.Name }}? This cannot be undone.')">
+                  Delete
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

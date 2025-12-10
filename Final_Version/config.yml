@@ -1,0 +1,13 @@
+db:
+  user: 'bennetcw'
+  pw: 'Swedishfish23!'
+  host: 'mysql.clarksonmsda.org'
+  db: 'bennetcw_IA637_rowing_DB'
+
+tables:
+  user: 'User'
+  athlete: 'Athlete'
+  practice: 'Practice'
+  practiceattendance: 'Practice_Attendance'
+  section: 'Section'
+  sectionalmembership: 'Sectional_Membership'

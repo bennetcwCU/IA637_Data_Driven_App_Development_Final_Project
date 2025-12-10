@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="text-center mb-5">
+  <h1 class="display-4 fw-bold analytics-title">Clarkson Rowing</h1>
+  <h2 class="display-6 fw-light analytics-subtitle">Performance Analytics</h2>
+</div>
+
+  <div class="mb-4">
+    <a href="/admin" class="btn btn-outline-secondary btn-lg">
+      ← Back to Admin Dashboard
+    </a>
+  </div>
+
+  <!-- HERO STATS -->
+  <div class="row text-center mb-5">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg border-0" style="background:#004e42; color:white;">
+        <div class="card-body py-5">
+          <h2 class="display-4 fw-bold mb-2" style="color:#ffcd00;">
+            {{ performance|map(attribute='total_meters')|sum|default(0)|int }}
+          </h2>
+          <p class="fs-4 mb-0">Total Meters Rowed</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-lg h-100" style="background:#ffcd00; color:#004e42;">
+      <div class="card-body py-5 text-center">
+        <h2 class="hours-trained-number display-4 fw-bold mb-2">
+          {{ (performance|map(attribute='total_minutes')|sum|default(0)/60)|round(1) }}
+        </h2>
+        <p class="mb-0 fs-4 fw-bold">Total Hours Trained</p>
+      </div>
+    </div>
+  </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg border-0 border-success border-4">
+        <div class="card-body py-5">
+          <h2 class="display-4 fw-bold mb-2 text-success">{{ performance|length }}</h2>
+          <p class="fs-4 mb-0">Active Rowers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDIVIDUAL PERFORMANCE TABLE -->
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Individual Rower Performance</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th class="ps-4">Rank</th>
+              <th class="ps-4">Rower</th>
+              <th>Practices</th>
+              <th>Total Meters</th>
+              <th>Total Minutes</th>
+              <th>Avg Meters/Session</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in performance %}
+            {% set i = loop.index %}
+            <tr {% if i <= 3 %}class="table-warning fw-bold"{% endif %}>
+              <td class="ps-4 fw-bold fs-4">
+                {% if i == 1 %}1st place
+                {% elif i == 2 %}2nd place
+                {% elif i == 3 %}3rd place
+                {% else %}{{ i }}{% endif %}
+              </td>
+              <td class="ps-4 fw-bold fs-5">{{ row.Name }}</td>
+              <td>{{ row.practices_attended }}</td>
+              <td><strong>{{ row.total_meters|int }}</strong> m</td>
+              <td>{{ row.total_minutes }} min</td>
+              <td>
+                {% if row.practices_attended > 0 %}
+                  <strong>{{ (row.total_meters / row.practices_attended)|round(0)|int }}</strong> m
+                {% else %}—{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

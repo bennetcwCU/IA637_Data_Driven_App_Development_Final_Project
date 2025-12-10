@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Edit Practice{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold page-title">Edit Practice</h1>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header text-center py-4" style="background:#004e42;">
+          <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Update Practice Details</h3>
+        </div>
+        <div class="card-body p-5">
+          <form method="POST" action="/update-practice/{{ practice.Practice_ID }}">
+            <div class="mb-4">
+              <label class="form-label fw-bold">Date</label>
+              <input type="date" name="date" value="{{ practice.Practice_Date.strftime('%Y-%m-%d') }}" 
+                     class="form-control form-control-lg rounded-pill" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Practice Type</label>
+              <select name="type" class="form-select form-select-lg rounded-pill" required>
+                <option {% if practice.Practice_Type == 'On-Water' %}selected{% endif %}>On-Water</option>
+                <option {% if practice.Practice_Type == 'Erg' %}selected{% endif %}>Erg</option>
+                <option {% if practice.Practice_Type == 'Weights' %}selected{% endif %}>Weights</option>
+                <option {% if practice.Practice_Type == 'Land' %}selected{% endif %}>Land</option>
+                <option {% if practice.Practice_Type == 'Race' %}selected{% endif %}>Race</option>
+                <option {% if practice.Practice_Type == 'Yoga/Recovery' %}selected{% endif %}>Yoga/Recovery</option>
+              </select>
+            </div>
+            <div class="mb-5">
+              <label class="form-label fw-bold">Intensity</label>
+              <select name="intensity" class="form-select form-select-lg rounded-pill" required>
+                <option value="Easy" {% if practice.Practice_intensity_Type == 'Easy' %}selected{% endif %}>Easy</option>
+                <option value="Steady State" {% if practice.Practice_intensity_Type == 'Steady State' %}selected{% endif %}>Steady State</option>
+                <option value="Threshold" {% if practice.Practice_intensity_Type == 'Threshold' %}selected{% endif %}>Threshold</option>
+                <option value="Anaerobic" {% if practice.Practice_intensity_Type == 'Anaerobic' %}selected{% endif %}>Anaerobic</option>
+                <option value="Race Pace" {% if practice.Practice_intensity_Type == 'Race Pace' %}selected{% endif %}>Race Pace</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-lg px-6 py-3 shadow fw-bold"
+                      style="background:#ffcd00; color:#004e42; border-radius:50px;">
+                Update Practice
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

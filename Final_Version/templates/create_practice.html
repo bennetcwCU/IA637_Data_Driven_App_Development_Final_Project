@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Create New Practice{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header text-white text-center py-4" style="background:#004e42;">
+          <h2 class="mb-0 fw-bold">Create New Practice</h2>
+        </div>
+        <div class="card-body p-5">
+          <form method="POST" action="/create_practice">
+            <div class="mb-4">
+              <label class="form-label fw-bold">Date</label>
+              <input type="date" name="date" class="form-control form-control-lg" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Practice Type</label>
+              <select name="type" class="form-select form-select-lg" required>
+                <option>On-Water</option>
+                <option>Erg</option>
+                <option>Weights</option>
+                <option>Land</option>
+                <option>Race</option>
+                <option>Yoga/Recovery</option>
+              </select>
+            </div>
+            <div class="mb-5">
+              <label class="form-label fw-bold">Intensity</label>
+              <select name="intensity" class="form-select form-select-lg" required>
+                <option value="Easy">Easy</option>
+                <option value="Steady State">Steady State</option>
+                <option value="Threshold">Threshold</option>
+                <option value="Anaerobic">Anaerobic</option>
+                <option value="Race Pace">Race Pace</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-lg px-5 py-3 shadow fw-bold"
+                      style="background:#ffcd00; color:#004e42; border-radius:50px; font-size:1.3rem;">
+                Create Practice
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

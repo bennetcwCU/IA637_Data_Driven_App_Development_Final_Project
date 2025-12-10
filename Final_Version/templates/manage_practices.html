@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Manage Practices{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold page-title">Manage Practices</h1>
+  </div>
+
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">All Practices</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Intensity</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in practices %}
+            <tr>
+              <td>{{ p.Practice_Date.strftime('%b %d, %Y') }}</td>
+              <td>{{ p.Practice_Type }}</td>
+              <td>{{ p.Practice_intensity_Type }}</td>
+              <td class="text-center">
+                <a href="/edit-practice/{{ p.Practice_ID }}" class="btn btn-warning btn-sm me-2">Edit</a>
+                <a href="/delete-practice/{{ p.Practice_ID }}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete this practice?')">Delete</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

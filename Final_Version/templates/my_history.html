@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}My Practice History{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+<!-- MAIN TITLE — OFFICIAL CLARKSON GREEN IN LIGHT MODE -->
+<div class="text-center mb-5">
+  <h1 class="display-4 fw-bold my-history-title">My Practice History</h1>
+  <h2 class="display-5 fw-bold mt-3 my-history-name">{{ session.name }}</h2>
+</div>
+
+  <!-- HISTORY TABLE — OFFICIAL CLARKSON STYLE -->
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">All Recorded Practices</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Intensity</th>
+              <th>Duration (min)</th>
+              <th>Distance (m)</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in history %}
+            <tr>
+              <td class="fw-bold">{{ row.Practice_Date.strftime('%b %d, %Y') }}</td>
+              <td>{{ row.Practice_Type }}</td>
+              <td>{{ row.Practice_intensity_Type }}</td>
+              <td>
+                <form method="POST" action="/update-practice-record" style="display:inline;">
+                  <input type="hidden" name="record_id" value="{{ row.Practice_SessionID }}">
+                  <input type="number" name="duration" value="{{ row.Duration or 0 }}" 
+                         class="form-control form-control-sm" style="width:80px; display:inline-block;">
+              </td>
+              <td>
+                  <input type="number" name="distance" value="{{ row.Distance or 0 }}" 
+                         class="form-control form-control-sm" style="width:100px; display:inline-block;">
+              </td>
+              <td class="text-center">
+                  <button type="submit" class="btn btn-sm" 
+                          style="background:#ffcd00; color:#004e42; border-radius:20px;">
+                    Update
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="/athlete" class="btn btn-outline-light">← Back to Dashboard</a>
+  </div>
+
+</div>
+{% endblock %}

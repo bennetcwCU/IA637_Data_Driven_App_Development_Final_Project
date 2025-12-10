@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+  <!-- WELCOME TITLE — OFFICIAL CLARKSON STYLE -->
+<!-- WELCOME TITLE — OFFICIAL CLARKSON GOLD IN DARK MODE -->
+<div class="text-center mb-5">
+  <h1 class="display-4 fw-bold athlete-welcome-title">Welcome, {{ session.name }}!</h1>
+  <h2 class="display-6 fw-light athlete-welcome-subtitle">Clarkson Rowing Practice Attendance</h2>
+</div>
+
+<div class="text-end mb-4">
+  <div class="d-inline-flex gap-3 flex-wrap">
+    <a href="/my-account" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none;">
+      My Account
+    </a>
+    <a href="/my-history" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none;">
+      My Practice History
+    </a>
+  </div>
+</div>
+
+  <!-- UPCOMING PRACTICES CARD -->
+  <div class="card shadow-lg border-0 rounded-4 mb-5">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Upcoming Practices</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Intensity</th>
+              <th class="text-center">Record Attendance</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in practices %}
+            {% if p.Practice_Date >= today %}
+            <tr>
+              <td class="fw-bold">{{ p.Practice_Date.strftime('%A, %b %d') }}</td>
+              <td>{{ p.Practice_Type }}</td>
+              <td>{{ p.Practice_intensity_Type }}</td>
+              <td class="text-center">
+                <form method="POST" action="/record" style="display:inline;">
+                  <input type="hidden" name="practice_id" value="{{ p.Practice_ID }}">
+                  <button type="submit" class="btn btn-gold btn-sm">
+                    Mark Present
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            {% if not practices|selectattr("Practice_Date", "ge", today)|list %}
+            <tr>
+              <td colspan="4" class="text-center py-5 text-muted">
+                No upcoming practices scheduled
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY ATTENDANCE SUMMARY CARD -->
+  <div class="row mb-5 text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-lg h-100" style="background:#004e42; color:white;">
+        <div class="card-body py-5">
+          <h2 class="display-5 fw-bold mb-2" style="color:#ffcd00;">
+            {{ attendance|length }}
+          </h2>
+          <p class="mb-0 fs-5 opacity-90">Practices Attended</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-lg h-100" style="background:#ffcd00; color:#004e42;">
+        <div class="card-body py-5">
+          <h2 class="display-5 fw-bold mb-2 attendance-rate-value">
+            {{ (attendance|length / practices|length * 100)|round(1) if practices else 0 }}%
+          </h2>
+          <p class="mb-0 fs-5 fw-bold">Current Attendance Rate</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-lg h-100 border-warning border-4">
+        <div class="card-body py-5">
+          <h2 class="display-5 fw-bold mb-2 text-warning">
+            {{ practices|length - attendance|length }}
+          </h2>
+          <p class="mb-0 fs-5">Practices Missed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT ATTENDANCE HISTORY -->
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">My Recent Attendance</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th>Date</th>
+              <th>Practice Type</th>
+              <th>Intensity</th>
+              <th>Recorded</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in attendance[:10] %}
+            <tr>
+              <td class="fw-bold">{{ row.Practice_Date.strftime('%b %d, %Y') }}</td>
+              <td>{{ row.Practice_Type }}</td>
+              <td>{{ row.Practice_intensity_Type }}</td>
+              <td class="text-success">Present</td>
+            </tr>
+            {% endfor %}
+            {% if not attendance %}
+            <tr>
+              <td colspan="4" class="text-center py-5 text-muted">
+                No attendance recorded yet — start showing up!
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

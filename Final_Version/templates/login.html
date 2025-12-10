@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold login-title">Clarkson Rowing</h1>
+        <p class="lead login-subtitle">Practice Attendance System</p>
+      </div>
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+          <form method="POST">
+            <div class="mb-4">
+              <input type="email" name="email" class="form-control form-control-lg text-center rounded-pill"
+                     placeholder="clarkson.edu email" required autofocus>
+            </div>
+            <div class="mb-5">
+              <input type="password" name="password" class="form-control form-control-lg text-center rounded-pill"
+                     placeholder="Password" required>
+            </div>
+
+            <!-- OFFICIAL CLARKSON GOLD LOGIN BUTTON -->
+            <button type="submit" class="btn btn-lg w-100 py-3 rounded-pill shadow-lg fw-bold"
+                    style="background:#ffcd00; color:#004e42; font-size:1.4rem; border:none;">
+              Log In
+            </button>
+          </form>
+
+          <div class="text-center mt-4">
+            <p class="text-muted mb-0">
+              Contact your coach for access • 
+              <span style="color:#004e42; font-weight:bold;">Go Golden Knights!</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

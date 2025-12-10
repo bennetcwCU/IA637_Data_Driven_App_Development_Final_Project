@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+  <!-- MAIN TITLE — OFFICIAL CLARKSON STYLE -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold page-title">Clarkson Rowing</h1>
+    <h2 class="display-6 fw-light page-subtitle">Practice Attendance System</h2>
+  </div>
+
+  <!-- ADMIN NAVIGATION BUTTONS — ALL ON ONE LINE -->
+  <div class="d-flex justify-content-end gap-3 flex-wrap mb-4">
+    <a href="/create-practice" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#ffcd00; color:#004e42; border-radius:50px; text-decoration:none; min-width:220px;">
+      + Create New Practice
+    </a>
+    <a href="/manage-practices" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none; min-width:220px;">
+      Manage Practices
+    </a>
+    <a href="/manage-users" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none; min-width:220px;">
+      Manage Users/Athletes
+    </a>
+    <a href="/analytics" class="btn btn-lg fw-bold px-5 py-3 shadow"
+       style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none; min-width:220px;">
+      Analytics Dashboard
+    </a>
+  </div>
+
+  <!-- TEAM STATISTICS CARDS — OFFICIAL CLARKSON GOLD & GREEN -->
+  <div class="row mb-5 text-center">
+    <!-- TOTAL PRACTICES -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-lg h-100 text-white" style="background:#004e42;">
+        <div class="card-body py-5 text-center">
+          <h2 class="display-5 fw-bold mb-2" style="color:#ffcd00;">{{ total_practices }}</h2>
+          <p class="mb-0 fs-5 opacity-90">Total Practices</p>
+        </div>
+      </div>
+    </div>
+
+  <!-- TEAM AVERAGE — GREEN TEXT ON GOLD (OFFICIAL) -->
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card border-0 shadow-lg h-100" style="background:#ffcd00;">
+      <div class="card-body py-5 text-center">
+        <h2 class="team-average-number display-5 fw-bold mb-2">
+          {{ team_average }}%
+        </h2>
+        <p class="mb-0 fs-5 fw-bold" style="color:#004e42;">Team Average</p>
+      </div>
+    </div>
+  </div>
+
+    <!-- PRESENT -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-lg h-100 border-success border-4">
+        <div class="card-body py-5 text-center">
+          <h2 class="display-5 fw-bold mb-2 text-success">
+            {{ (team_average/100*total_athletes*total_practices)|round(0)|int }}
+          </h2>
+          <p class="mb-0 fs-5">Present</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABSENT -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-0 shadow-lg h-100 border-danger border-4">
+        <div class="card-body py-5 text-center">
+          <h2 class="display-5 fw-bold mb-2 text-danger">
+            {{ total_athletes*total_practices - (team_average/100*total_athletes*total_practices)|round(0)|int }}
+          </h2>
+          <p class="mb-0 fs-5">Absent</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- LOW ATTENDANCE ALERTS WITH EMAIL BUTTON -->
+{% set low_attenders = athlete_stats|selectattr('percentage', 'lt', 75)|list %}
+{% if low_attenders %}
+<div class="card shadow-lg border-0 rounded-4 mb-5">
+  <div class="card-header text-center py-4" style="background:#004e42;">
+    <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Low Attendance Alerts (below 75%)</h3>
+  </div>
+  <div class="card-body">
+    {% for athlete in low_attenders %}
+    <div class="d-flex justify-content-between align-items-center p-3 mb-3 rounded-3" 
+         style="background:#fff8e1; border-left:6px solid #ffcd00;">
+      <div>
+        <strong style="color:#004e42;">{{ athlete.name }}</strong>
+        <span class="ms-3" style="color:#004e42;">
+          — {{ athlete.percentage }}% ({{ athlete.attended }}/{{ athlete.total }})
+        </span>
+      </div>
+      <a href="/send-reminder/{{ athlete.name|urlencode }}" 
+         class="btn btn-sm" style="background:#004e42; color:#ffcd00; border:2px solid #ffcd00;">
+        Send Reminder
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+  <!-- EXPORT BUTTONS — OFFICIAL CLARKSON STYLE -->
+  <div class="text-center mb-4">
+    <a href="/export-attendance/csv" class="btn btn-lg px-5 py-3 shadow me-3"
+      style="background:#004e42; color:#ffcd00; border:3px solid #ffcd00; border-radius:50px; text-decoration:none;">
+      Export to CSV
+    </a>
+    <a href="/export-attendance/pdf" class="btn btn-lg px-5 py-3 shadow"
+      style="background:#ffcd00; color:#004e42; border-radius:50px; text-decoration:none;">
+      Export to PDF
+    </a>
+  </div>
+
+  <!-- FILTERS — OFFICIAL CLARKSON STYLE -->
+  <div class="card shadow-lg border-0 rounded-4 mb-5">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Filter Attendance</h3>
+    </div>
+    <div class="card-body">
+      <form method="GET" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Start Date</label>
+          <input type="date" name="start_date" class="form-control" value="{{ start_date or '' }}">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">End Date</label>
+          <input type="date" name="end_date" class="form-control" value="{{ end_date or '' }}">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Athlete</label>
+          <select name="athlete" class="form-select">
+            <option value="">All Athletes</option>
+            {% for name in all_athletes %}
+            <option {% if name == athlete_name %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Section</label>
+          <select name="section" class="form-select">
+            <option value="">All Sections</option>
+            {% for sec in all_sections %}
+            <option {% if sec == section %}selected{% endif %}>{{ sec }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12 text-center mt-3">
+          <button type="submit" class="btn" style="background:#ffcd00; color:#004e42; border-radius:50px; padding:12px 40px;">
+            Apply Filters
+          </button>
+          <a href="/admin" class="btn btn-outline-secondary ms-3">Clear</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PER-ATHLETE ATTENDANCE TABLE -->
+  <div class="card shadow-lg border-0 rounded-4 mb-5">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Attendance Percentage per Athlete</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th class="ps-4">Athlete</th>
+              <th>Attended</th>
+              <th>Total</th>
+              <th class="text-end pe-4">Attendance %</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stat in athlete_stats %}
+            <tr>
+              <td class="ps-4 fw-bold">{{ stat.name }}</td>
+              <td>{{ stat.attended }}</td>
+              <td>{{ stat.total }}</td>
+              <td class="text-end pe-4 fw-bold">{{ stat.percentage }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLETE ATTENDANCE RECORD -->
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header text-center py-4" style="background:#004e42;">
+      <h3 class="mb-0 fw-bold" style="color:#ffcd00;">Complete Attendance Record</h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead style="background:#004e42; color:white;">
+            <tr>
+              <th class="ps-4">Athlete</th>
+              <th>Date</th>
+              <th>Practice Type</th>
+              <th>Intensity</th>
+              <th>Duration</th>
+              <th>Distance</th>
+              <th>Recorded</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in attendance %}
+            <tr>
+              <td class="ps-4 fw-bold">{{ row.Name }}</td>
+              <td>{{ row.Practice_Date.strftime('%b %d, %Y') }}</td>
+              <td>{{ row.Practice_Type }}</td>
+              <td>{{ row.Practice_intensity_Type }}</td>
+              <td>{% if row.Duration %}{{ row.Duration }} min{% else %}—{% endif %}</td>
+              <td>{% if row.Distance %}{{ row.Distance }} m{% else %}—{% endif %}</td>
+              <td class="text-muted">
+                {{ row.entry_timestamp.strftime('%I:%M %p') if row.entry_timestamp else '—' }}
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <em>No attendance recorded yet</em>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
