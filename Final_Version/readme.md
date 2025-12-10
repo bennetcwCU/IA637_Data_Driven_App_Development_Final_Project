@@ -2,8 +2,8 @@
 ### Data Driven App Development — Final Project
 
 ## Group Members
-* **[Akshay Thugudam]**
-* **[Cole Bennett]**
+* **Akshay Thugudam**
+* **Cole Bennett**
 
 ## Narrative: App Purpose
 The **Clarkson Rowing Attendance System** is designed to digitize the practice attendance tracking for the Clarkson University Rowing team. Historically, attendance has been tracked via google sheets, which led to data consistency issues and made long-term analysis difficult.
@@ -92,3 +92,4 @@ Execute the main application file:
 
 
 **Use the example credentials listed in the User Roles & Credentials table above to log in.**
+
