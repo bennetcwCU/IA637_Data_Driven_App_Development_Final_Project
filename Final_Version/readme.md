@@ -74,8 +74,8 @@ db:
   db: 'your_database_name'
 ```
 
-## 3. Initialize Data
-Run the following scripts to seed your database with the initial Admin and Athlete accounts. This securely hashes their passwords before insertion.
+## 3. Initialize Data + Add New Users
+Run the following scripts to seed your database with the initial Admin and Athlete accounts. This securely hashes their passwords before insertion. These are also the files that should be run to create new users of the App.
 
 Create the Admin user (Boris)
 `python create_admin.py`
@@ -89,5 +89,6 @@ Execute the main application file:
 `python app.py`
 
 *The server will start at http://127.0.0.1:5000.* 
+
 
 **Use the example credentials listed in the User Roles & Credentials table above to log in.**
